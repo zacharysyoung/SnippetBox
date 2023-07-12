@@ -1,8 +1,9 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
+	"strconv"
 )
 
 // home returns home.
@@ -12,12 +13,18 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Hello from SnippetBox"))
+	w.Write([]byte("Hello from SnippetBox\n"))
 }
 
 // snippetView returns a specific snippet.
 func snippetView(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display a specific snippet..."))
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil || id < 1 {
+		http.NotFound(w, r)
+		return
+	}
+
+	fmt.Fprintf(w, "Display a specific snippet with ID %d...\n", id)
 }
 
 // snippetCreate creates a new snippet.
@@ -28,17 +35,5 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Create a new snippet..."))
-}
-
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/snippet/view", snippetView)
-	mux.HandleFunc("/snippet/create", snippetCreate)
-
-	const hostPort = ":4000"
-	log.Print("Starting server on", hostPort)
-	err := http.ListenAndServe(hostPort, mux)
-	log.Fatal(err)
+	w.Write([]byte("Create a new snippet...\n"))
 }
