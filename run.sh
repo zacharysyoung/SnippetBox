@@ -7,7 +7,6 @@ HOST_PORT=':4000' # see hostPort var in ./cmd/web/main.go
 
 startServer() {
     $CMD &
-    sleep 1 && getStatus
 }
 
 stopServer() {
