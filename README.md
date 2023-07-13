@@ -33,3 +33,35 @@
     where home is an actual Handler function—internally, mux.HandleFunc just wraps home, like HandlerFunc(home), to generate something (?) with the ServeHTTP method.
 
 ## Ch 3
+
+- Create an application to hold info and error loggers (I think it will soon hold DB info).  Refactored all functions to be methods of application so they have access to the loggers, and also just to "bring it all together":
+
+    ```go
+    type application struct {
+        errorLog: *log.Logger
+        infoLog:  *log.Logger
+    }
+    ```
+
+    then in helpers,
+
+    ```go
+    func (app *application) serverError(w http.ResponseWriter, err error) {
+        app.errorLog(...)
+
+        httpErr=http.StatusInternalServerError
+        http.Error(w, http.StatusText(httpErr), httpErr)
+    }
+    ```
+
+    so that in handlers,
+
+    ```go
+    func (app *application) pathHandler(w http.ResponseWriter, w *http.Request) {
+        if err := someInternalCheck(); err != nil {
+            app.serverError(w, err)
+            return
+        }
+
+        ...
+    }
