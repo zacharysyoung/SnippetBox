@@ -5,7 +5,9 @@ PROC_NAME='SnippetBox'
 
 
 startServer() {
+    echo "starting $PROC_NAME"
     go run ./cmd/web/$PROC_NAME -addr="$HOST_PORT" &
+    sleep 1
 }
 
 stopServer() {
@@ -14,13 +16,14 @@ stopServer() {
         echo "error: could not kill proc named $PROC_NAME; get more info with status command"
         exit 1
     else
+        sleep 1
         echo "stopped $PROC_NAME"
     fi
 }
 
 getStatus() {
     # output will include header, which starts with 'COMMAND   PID...'
-    output=$(lsof -n -i "$HOST_PORT")
+    output=$(lsof -n -i "$HOST_PORT" | grep 'COMMAND\|LISTEN')
     
     if [ $? = 1 ]; then
         echo "could not find anything listing on $HOST_PORT"
