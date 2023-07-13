@@ -1,12 +1,11 @@
 #!/bin/sh
 
-CMD='go run ./cmd/web/SnippetBox'
+HOST_PORT=':4000'
 PROC_NAME='SnippetBox'
-HOST_PORT=':4000' # see hostPort var in ./cmd/web/main.go
 
 
 startServer() {
-    $CMD &
+    go run ./cmd/web/$PROC_NAME -addr="$HOST_PORT" &
 }
 
 stopServer() {
