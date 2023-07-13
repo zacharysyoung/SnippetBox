@@ -67,3 +67,19 @@
     }
 
 ## Ch 4
+
+- Go's sql driver doesn't work with the broader concept of NULL often used in db engines.  Be sure to set NOT DEFAULT constraints when defining the table/columns, like we did earlier:
+
+    ```sql
+    CREATE TABLE snippets (
+        id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        title VARCHAR(100) NOT NULL,
+        content TEXT NOT NULL,
+        created DATETIME NOT NULL,
+        expires DATETIME NOT NULL
+    );
+    ```
+
+    and provide sensible DEFAULT values as necessary.
+
+## Ch 5
