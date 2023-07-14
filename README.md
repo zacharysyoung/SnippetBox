@@ -84,4 +84,4 @@
 
 ## Ch 5
 
-- Before the in-memory cache for the templates, a3ba692f77fb3f0f62a461273c393f6d24eaeb49.
+- Check git log for "before the template in-memory cache change", on Fri Jul 14 13:57:19 2023 -0700.
