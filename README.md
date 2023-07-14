@@ -83,3 +83,5 @@
     and provide sensible DEFAULT values as necessary.
 
 ## Ch 5
+
+- Before the in-memory cache for the templates, a3ba692f77fb3f0f62a461273c393f6d24eaeb49.

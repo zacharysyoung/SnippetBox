@@ -23,29 +23,26 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sep := ""
-	for _, snippet := range snippets {
-		fmt.Fprint(w, sep)
-		fmt.Fprintf(w, "%+v\n", snippet)
-		sep = "-------\n"
+	data := &templateData{
+		Snippets: snippets,
 	}
 
-	// files := []string{
-	// 	"./ui/html/base.tmpl",
-	// 	"./ui/html/partials/nav.tmpl",
-	// 	"./ui/html/pages/home.tmpl",
-	// }
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/pages/home.tmpl",
+	}
 
-	// ts, err := template.ParseFiles(files...)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
-	// err = ts.ExecuteTemplate(w, "base", nil)
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// }
+	err = ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		app.serverError(w, err)
+	}
 }
 
 // snippetView returns a specific snippet.
@@ -78,7 +75,11 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", snippet)
+	data := &templateData{
+		Snippet: snippet,
+	}
+
+	err = ts.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		app.serverError(w, err)
 	}
